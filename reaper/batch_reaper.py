@@ -19,10 +19,13 @@ def analyze_directory(data_directory, reaper_path = None, output_directory = Non
     if output_directory is not None and not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
+    processed = 1
+
     for root, dir, files in os.walk(data_directory):
         for f in files:
             if not f.lower().endswith('.wav'):
                 continue
+            print('Processing wav file {}: {}'.format(processed, f))
             wav_path = os.path.join(root, f)
             base_name = os.path.splitext(f)[0]
             if output_directory is None:
@@ -35,6 +38,7 @@ def analyze_directory(data_directory, reaper_path = None, output_directory = Non
                 output_path = os.path.join(new_root, base_name + '.f0')
                 pm_path = os.path.join(new_root, base_name + '.pm')
             subprocess.call([reaper_path, '-i', wav_path, '-f', output_path, '-p', pm_path, '-a'])
+            processed += 1
 
 if __name__ == '__main__':
     main()
