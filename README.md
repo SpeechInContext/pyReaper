@@ -1,5 +1,5 @@
 # pyReaper
-Python wrapper for Google-REAPER
+Python wrapper for Google-REAPER.  Currently, functionality is limited to running reaper on a directory of sound files.
 
 Installation
 ------------
