@@ -7,7 +7,8 @@ data_directory = r''
 
 output_directory = r''
 
-def analyze_directory(data_directory, reaper_path = None, output_directory = None):
+def analyze_directory(data_directory, reaper_path = None, output_directory = None,
+                    min_pitch = 80, max_pitch = 600, time_step = 0.005):
     if reaper_path is None:
         reaper_path = 'reaper'
     elif not os.path.exists(reaper_path):
@@ -37,7 +38,10 @@ def analyze_directory(data_directory, reaper_path = None, output_directory = Non
                     os.makedirs(new_root)
                 output_path = os.path.join(new_root, base_name + '.f0')
                 pm_path = os.path.join(new_root, base_name + '.pm')
-            subprocess.call([reaper_path, '-i', wav_path, '-f', output_path, '-p', pm_path, '-a'])
+            subprocess.call([reaper_path, '-i', wav_path, '-f',
+                        output_path, '-p', pm_path, '-a',
+                        '-e', str(time_step), '-u', str(time_step),
+                        '-x', str(max_pitch), '-m', str(min_pitch)])
             processed += 1
 
 if __name__ == '__main__':
